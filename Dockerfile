@@ -4,7 +4,7 @@ COPY . .
 
 RUN npm i
 
-# RUN npm run build
+RUN npm run build
 
 EXPOSE 8002
-CMD ["npm", "run" ,"dev"]
+CMD ["npm", "run" ,"start"]

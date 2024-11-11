@@ -6,6 +6,6 @@ const authRoutes = Router();
 const authService = new AuthService();
 const authController = new AuthController(authService);
 
-authRoutes.post('/login', authController.login);
+authRoutes.post("/login", authController.login);
 
 export default authRoutes;

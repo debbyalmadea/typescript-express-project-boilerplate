@@ -1,7 +1,7 @@
 version: "3.8"
 services:
   postgres-db:
-    image: postgres:latest
+    image: postgres:17.0-alpine3.20
     hostname: postgres-db
     restart: always
     env_file:
@@ -16,7 +16,7 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_NAME}
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready", "-d", "db_prod"]
+      test: ["CMD-SHELL", "sh -c 'pg_isready -U ${DB_USER} -d ${DB_NAME}'"]
       interval: 30s
       timeout: 60s
       retries: 5
@@ -28,10 +28,12 @@ services:
     restart: always
     volumes:
       - ./src:/usr/src/app/src
+    env_file:
+      - .env
     ports:
-      - "8002:8002"
+      - "${PORT}:${PORT}"
     depends_on:
-      ticket_app_db:
+       postgres-db:
         condition: service_healthy
     networks:
       - app-network
